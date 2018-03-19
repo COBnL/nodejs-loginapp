@@ -1,0 +1,4 @@
+{
+  "port": 3000,
+  "secret": "shhh_its_a_secret"
+}

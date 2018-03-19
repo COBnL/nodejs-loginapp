@@ -1,0 +1,59 @@
+<html>
+  <head>
+    <style type="text/css">
+      html, body {
+        font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+        margin: 0;
+        padding: 0;
+      }
+      .container {
+        max-width: 1500px;
+        padding: 20px 100px;
+        background: #f4f7f8;
+      }
+
+      pre {
+        white-space: pre-wrap;       /* css-3 */
+        word-wrap: break-word;
+      }
+      .hljs.yaml {
+        padding: 16px 8px;
+      }
+    </style>
+    <link rel="stylesheet" href="assets/monokai.min.css">
+
+  </head>
+  <body>
+    <div class="container">
+    <p>Copy this in your ~/.kube/config file:</p>
+    <pre><code class="hljs yaml">apiVersion: v1
+kind: Config
+preferences: {}
+clusters:
+- name: <%= apiserverConfig.name %>
+  cluster:
+    server: <%= apiserverConfig.address %>
+    certificate-authority-data: <%= apiserverConfig.ca %>
+users:
+- name: <%= idToken.content.preferred_username %>
+  user:
+    auth-provider:
+      config:
+        client-id: <%= idToken.content.aud %>
+        client-secret: <%= keycloakConfig.credentials.secret %>
+        id-token: <%= idToken.token %>
+        idp-issuer-url: <%= idToken.content.iss %>
+        refresh-token: <%= refreshToken.token %>
+      name: oidc
+contexts:
+- context:
+    cluster: <%= apiserverConfig.name %>
+    user: <%= idToken.content.preferred_username %>
+  name: <%= idToken.content.preferred_username %>@<%= apiserverConfig.name %>
+current-context: <%= idToken.content.preferred_username %>@<%= apiserverConfig.name %>
+</code></pre>
+    <script src="assets/highlight.min.js"></script>
+    <script src="assets/yaml.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+  </body>
+</html>

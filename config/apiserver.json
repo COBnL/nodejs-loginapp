@@ -1,0 +1,5 @@
+{
+  "address": "https://apiserver.example.com",
+  "caPath": "/absolute/path/to/ca/certificate.js",
+  "name": "kubernetes"
+}
